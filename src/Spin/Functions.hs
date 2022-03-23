@@ -12,6 +12,7 @@ import Data.Maybe
 import System.Console.ANSI
 
 import Spin.Types
+import System.IO
 
 defaultConfig :: Config
 defaultConfig = Config
@@ -53,6 +54,7 @@ tick :: Spec -> IORef Config -> Int -> IO ()
 tick spec@Spec{..} configIORef i = do
   config <- readIORef configIORef
   putStr $ renderTick spec i config
+  hFlush stdout
   threadDelay $ usInMs * specInterval
   resetLine
   tick spec configIORef $ i + 1
